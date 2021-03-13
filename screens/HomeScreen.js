@@ -1,11 +1,14 @@
-import React, {useLayoutEffect} from 'react'
+import React, {useEffect,useState, useLayoutEffect} from 'react'
 import { Avatar } from 'react-native-elements'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import {AntDesign, SimpleLineIcons} from '@expo/vector-icons';
 import Content from './../components/Content';
 import Footer from './../components/Footer';
+import { db } from '../firebase';
 
 const HomeScreen = ({navigation}) => {
+    const [dates ,setDates] = useState([])
+
     useLayoutEffect(() => {
         navigation.setOptions({
             title : "Tên Sinh Viên",
@@ -38,6 +41,20 @@ const HomeScreen = ({navigation}) => {
         })
     }, [navigation])
 
+    //không delete đoạn này
+    // useEffect(()=>{
+    //     const unsubscribe = db
+    //         .collection('dates')
+    //         .orderBy('date', 'asc')
+    //         .onSnapshot(snapshot => (
+    //         setDates(snapshot.docs.map(doc => ({
+    //             id : doc.id,
+    //             data : doc.data()
+    //         })))
+    //     ))
+    //     return unsubscribe;
+    // },[]);
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -49,7 +66,17 @@ const HomeScreen = ({navigation}) => {
                 <Content/>
             </View>
             <View style={styles.footer}>
+                {/* code chính */}
+                    {/* 
+                        {dates.map(({id, data: {date}})=> (
+                            <Footer date={date} id={id} key={id}/>
+                        ))} 
+                    */}
+                {/* code chính */}
+
+                {/* code để test edit giao diện */}
                 <Footer/>
+                {/* code để test edit giao diện */}
             </View>
         </View>
     )
@@ -78,6 +105,9 @@ const styles = StyleSheet.create({
         backgroundColor  : '#ddd'
     },
     footer:{
+        justifyContent : 'center',
+        flexDirection : 'row',
         flex : 1,
+        marginBottom : 5,
     }
 })

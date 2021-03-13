@@ -20,10 +20,9 @@ const Create = () => {
     }
 
     const addSubject = ()=> {
-            Keyboard.dismiss();
-            db.collection('chats')
-            .doc(route.params.id)
-            .collection('messages')
+            db.collection('dates')
+            .doc('gtyHtMCuVsEEg3aAjoAm')
+            .collection('subjects')
             .add({
                 name : name,
                 subject : subject,
