@@ -7,7 +7,7 @@ const Footer = ({id,date}) => {
             backgroundColor2: 'black',
             pressed: false,
         })    
-    
+        
        const changeColor = () =>{
         if(!state.pressed){
            setState({ pressed: true,backgroundColor: '#fed014', backgroundColor2: 'black'});
@@ -19,7 +19,7 @@ const Footer = ({id,date}) => {
         <TouchableOpacity onPress={changeColor}>
         <View style={styles.container}> 
             <View style={[styles.element,  {backgroundColor : state.backgroundColor}]}>
-                <Text style={styles.date}>{date}Thứ 3</Text>
+                <Text style={styles.date}>{date}</Text>
             </View>
         </View>
         </TouchableOpacity>
@@ -42,6 +42,8 @@ const styles = StyleSheet.create({
         backgroundColor : '#ddd',
         width : 50, 
         height: 50,
+        borderWidth : 1,
+        borderColor : '#fed014'
        
     },
     date:{

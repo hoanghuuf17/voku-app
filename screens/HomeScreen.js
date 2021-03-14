@@ -41,19 +41,19 @@ const HomeScreen = ({navigation}) => {
         })
     }, [navigation])
 
-    //không delete đoạn này
-    // useEffect(()=>{
-    //     const unsubscribe = db
-    //         .collection('dates')
-    //         .orderBy('date', 'asc')
-    //         .onSnapshot(snapshot => (
-    //         setDates(snapshot.docs.map(doc => ({
-    //             id : doc.id,
-    //             data : doc.data()
-    //         })))
-    //     ))
-    //     return unsubscribe;
-    // },[]);
+    // không delete đoạn này
+    useEffect(()=>{
+        const unsubscribe = db
+            .collection('dates')
+            .orderBy('date', 'asc')
+            .onSnapshot((snapshot) => 
+            setDates(snapshot.docs.map(doc => ({
+                id : doc.id,
+                data : doc.data()
+            }))
+        ))
+        return unsubscribe;
+    },[]);
 
     return (
         <View style={styles.container}>
@@ -67,15 +67,15 @@ const HomeScreen = ({navigation}) => {
             </View>
             <View style={styles.footer}>
                 {/* code chính */}
-                    {/* 
+                    
                         {dates.map(({id, data: {date}})=> (
                             <Footer date={date} id={id} key={id}/>
                         ))} 
-                    */}
+                   
                 {/* code chính */}
 
                 {/* code để test edit giao diện */}
-                <Footer/>
+                {/* <Footer/> */}
                 {/* code để test edit giao diện */}
             </View>
         </View>

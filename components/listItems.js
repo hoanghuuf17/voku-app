@@ -1,9 +1,24 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { ListItem, Avatar} from 'react-native-elements';
+import { db } from '../firebase';
 
+//bỏ
+const ListItems = ({id,dateId, data}) => {
+    const [subjects, setSubjects] = useState([]);
+    // useEffect(()=>{
+    //     const unsubcribe =  db
+    //     .collection('dates')
+    //     .doc(dateId).collection('subjects')
+    //     .onSnapshot((snapshot) => 
+    //         setSubjects(snapshot.docs.map(doc => ({
+    //             id : doc.id,
+    //             data : doc.data()
+    //         }))
+    //     ))
+    //     return unsubcribe;
+    // })
 
-const ListItems = ({name, subject, room, session, time, date}) => {
     return (
         <View style={styles.container}>
             <View style={styles.avatar}>
@@ -15,12 +30,12 @@ const ListItems = ({name, subject, room, session, time, date}) => {
                 />
             </View>
             <View style={styles.title}>
-                <Text style={styles.subject}>Tên môn học</Text>
-                <Text style={styles.name}> gv : tên giảng viên</Text>
+                <Text style={styles.subject}>{subjects.subject}</Text>
+                <Text style={styles.name}> {subjects.name}</Text>
             </View>
             <View style={styles.subtitle}>
-                <Text style={styles.room}> Phòng: B204</Text>
-                <Text style={styles.session}>Tiết: 6-7</Text>
+                <Text style={styles.room}> {subjects.room}</Text>
+                <Text style={styles.session}>{subjects.session}</Text>
 
             </View>
         </View>
@@ -34,7 +49,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flex : 1,
         backgroundColor : 'white',
-        padding : 10
+        padding : 10,
+        marginTop : 10
     },
     avatar:{
         justifyContent: 'center',
