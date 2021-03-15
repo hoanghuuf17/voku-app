@@ -17,6 +17,7 @@ export default function App(navigation) {
       <NavigationContainer>
         <Stack.Navigator 
           initialRouteName="Home">
+            //test
           {/* Chưa làm chức năng login */}
           {/* <Stack.Screen name="Login" component= {LoginScreen}/> */}
             <Stack.Screen name="Home" component= {HomeScreen}/>
