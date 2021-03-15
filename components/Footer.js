@@ -1,7 +1,10 @@
 import React,{useState} from 'react'
 import { StyleSheet, Text, View,TouchableOpacity } from 'react-native'
+import {useDispatch} from 'react-redux';
+import { enterDate } from '../features/appDate';
 
 const Footer = ({id,date}) => {
+        const dispatch = useDispatch();
         const [state, setState] = useState({
             backgroundColor: 'transparent',
             backgroundColor2: 'black',
@@ -14,6 +17,9 @@ const Footer = ({id,date}) => {
         } else {
           setState({ pressed: false, backgroundColor: 'transparent' ,backgroundColor2: '#fed014'});
         }
+        dispatch(enterDate({
+            dateId : id
+        }))
       }
     return (
         <TouchableOpacity onPress={changeColor}>

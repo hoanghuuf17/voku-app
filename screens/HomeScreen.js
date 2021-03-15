@@ -5,10 +5,16 @@ import {AntDesign, SimpleLineIcons} from '@expo/vector-icons';
 import Content from './../components/Content';
 import Footer from './../components/Footer';
 import { db } from '../firebase';
+import {useSelector} from 'react-redux';
+import { selectDateId } from '../features/appDate';
+
 
 const HomeScreen = ({navigation}) => {
     const [dates ,setDates] = useState([])
+    const [id ,setId] = useState([])
+    const dateId = useSelector(selectDateId)
 
+    
     useLayoutEffect(() => {
         navigation.setOptions({
             title : "Tên Sinh Viên",
@@ -39,8 +45,20 @@ const HomeScreen = ({navigation}) => {
                 </View>
             )
         })
+       
     }, [navigation])
-
+    
+//    useEffect(()=>{
+//         const unsubscribe = db
+//             .collection('dates')
+//             .doc(dateId)
+//             .onSnapshot((snapshot) =>{ 
+//                 setId ({
+//                     date : snapshot.data()
+//                 })        
+//             })
+//         return () => unsubscribe();
+//    })
     // không delete đoạn này
     useEffect(()=>{
         const unsubscribe = db
@@ -59,7 +77,7 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.date}>
-                    <Text>Thứ 3</Text>
+                    <Text></Text>
                 </View>
             </View>
             <View style={styles.content}>
