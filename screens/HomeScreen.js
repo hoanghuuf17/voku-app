@@ -7,6 +7,8 @@ import Footer from './../components/Footer';
 import { db } from '../firebase';
 import {useSelector} from 'react-redux';
 import { selectDateId } from '../features/appDate';
+import {useDocument} from 'react-firebase-hooks/firestore';
+
 
 
 const HomeScreen = ({navigation}) => {
@@ -14,6 +16,9 @@ const HomeScreen = ({navigation}) => {
     const [id ,setId] = useState([])
     const dateId = useSelector(selectDateId)
 
+    const [dateDetail] = useDocument(
+        dateId && db.collection('dates').doc(dateId)
+    );
     
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -77,7 +82,7 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.date}>
-                    <Text></Text>
+                    <Text>{dateDetail?.data().date}</Text>
                 </View>
             </View>
             <View style={styles.content}>
