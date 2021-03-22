@@ -4,12 +4,10 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import {AntDesign, SimpleLineIcons} from '@expo/vector-icons';
 import Content from './../components/Content';
 import Footer from './../components/Footer';
-import { db } from '../firebase';
+import { auth, db } from '../firebase';
 import {useSelector} from 'react-redux';
 import { selectDateId } from '../features/appDate';
 import {useDocument} from 'react-firebase-hooks/firestore';
-
-
 
 const HomeScreen = ({navigation}) => {
     const [dates ,setDates] = useState([])
@@ -19,6 +17,12 @@ const HomeScreen = ({navigation}) => {
     const [dateDetail] = useDocument(
         dateId && db.collection('dates').doc(dateId)
     );
+
+    const signOutUser = () =>{
+            auth.signOut().then(()=> {
+                navigation.replace('Login');
+            })
+    }
     
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -28,10 +32,12 @@ const HomeScreen = ({navigation}) => {
             headerTintColor : 'black',
             headerLeft : () =>(
                 <View style={{marginLeft: 20}}>
-                        <Avatar
-                            rounded
-                            source ={{ uri : 'https://yt3.ggpht.com/yti/ANoDKi6B2Vz6ba7rPetrK3HNmHuhVJZWSvfpvpro6CyYWQ=s48-c-k-c0x00ffffff-no-rj' }}
-                        />
+                <TouchableOpacity  activeOpacity={0.5}>
+                    <Avatar
+                        rounded
+                        source ={{ uri : 'https://yt3.ggpht.com/yti/ANoDKi6B2Vz6ba7rPetrK3HNmHuhVJZWSvfpvpro6CyYWQ=s48-c-k-c0x00ffffff-no-rj' }}
+                    />
+                </TouchableOpacity>
                 </View>
             ),
             headerRight : () => (
@@ -44,7 +50,7 @@ const HomeScreen = ({navigation}) => {
                     <TouchableOpacity activeOpacity={0.5}>
                         <AntDesign name="notification" size={24} color="black"/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('AddChat')} activeOpacity={0.5}>
+                    <TouchableOpacity onPress={signOutUser} activeOpacity={0.5}>
                         <SimpleLineIcons name="logout" size={24} color="black"/>
                     </TouchableOpacity>
                 </View>
@@ -53,18 +59,6 @@ const HomeScreen = ({navigation}) => {
        
     }, [navigation])
     
-//    useEffect(()=>{
-//         const unsubscribe = db
-//             .collection('dates')
-//             .doc(dateId)
-//             .onSnapshot((snapshot) =>{ 
-//                 setId ({
-//                     date : snapshot.data()
-//                 })        
-//             })
-//         return () => unsubscribe();
-//    })
-    // không delete đoạn này
     useEffect(()=>{
         const unsubscribe = db
             .collection('dates')
@@ -89,17 +83,11 @@ const HomeScreen = ({navigation}) => {
                 <Content/>
             </View>
             <View style={styles.footer}>
-                {/* code chính */}
-                    
-                        {dates.map(({id, data: {date}})=> (
-                            <Footer date={date} id={id} key={id}/>
-                        ))} 
-                   
-                {/* code chính */}
-
-                {/* code để test edit giao diện */}
-                {/* <Footer/> */}
-                {/* code để test edit giao diện */}
+                {
+                    dates.map(({id, data: {date}})=> (
+                    <Footer date={date} id={id} key={id}/>
+                    ))
+                } 
             </View>
         </View>
     )
