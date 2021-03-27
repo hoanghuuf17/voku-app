@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React,{useEffect} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -9,6 +9,7 @@ import HomeScreen from './screens/HomeScreen';
 import store from './app/store';
 import { Provider } from 'react-redux';
 import LoginScreen from './screens/LoginScreen';
+import { auth } from './firebase';
 const Stack = createStackNavigator();
 
 export default function App(navigation) {
@@ -18,10 +19,9 @@ export default function App(navigation) {
       <View style={styles.container}>
         <StatusBar style={'dark'}/>
         <NavigationContainer>
-            <Stack.Navigator 
-                initialRouteName="Home">
-                    <Stack.Screen name="Home" component= {HomeScreen}/>
+            <Stack.Navigator>
                     <Stack.Screen name="Login" component= {LoginScreen}/>
+                    <Stack.Screen name="Home" component= {HomeScreen}/>
               </Stack.Navigator>
         </NavigationContainer>
       </View>

@@ -8,8 +8,10 @@ import { auth, db } from '../firebase';
 import {useSelector} from 'react-redux';
 import { selectDateId } from '../features/appDate';
 import {useDocument} from 'react-firebase-hooks/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 const HomeScreen = ({navigation}) => {
+    const [user] = useAuthState(auth);
     const [dates ,setDates] = useState([])
     const [id ,setId] = useState([])
     const dateId = useSelector(selectDateId)
@@ -26,7 +28,7 @@ const HomeScreen = ({navigation}) => {
     
     useLayoutEffect(() => {
         navigation.setOptions({
-            title : "Tên Sinh Viên",
+            title : user?.displayName,
             headerStyle : {backgroundColor : '#fed014'},
             headerTitleStyle : {color : 'black'},
             headerTintColor : 'black',
@@ -35,7 +37,7 @@ const HomeScreen = ({navigation}) => {
                 <TouchableOpacity  activeOpacity={0.5}>
                     <Avatar
                         rounded
-                        source ={{ uri : 'https://yt3.ggpht.com/yti/ANoDKi6B2Vz6ba7rPetrK3HNmHuhVJZWSvfpvpro6CyYWQ=s48-c-k-c0x00ffffff-no-rj' }}
+                        source ={{ uri : user?.photoURL }}
                     />
                 </TouchableOpacity>
                 </View>

@@ -39,14 +39,15 @@ const LoginScreen = ({navigation}) => {
           if (!isUserEqual(googleUser, firebaseUser)) {
             // Build Firebase credential with the Google ID token.
             var credential = firebase.auth.GoogleAuthProvider.credential(
-                googleUser.accessToken,
-                googleUser.idToken
+              googleUser.idToken,
+              googleUser.accessToken
             );
-    
+
             // Sign in with credential from the Google user.
             firebase.auth().signInWithCredential(credential).then(function(result) {
               console.log(result);
               console.log(result.user);
+              console.log('passed')
             })
             .catch((error) => {
               // Handle Errors here.
@@ -56,18 +57,12 @@ const LoginScreen = ({navigation}) => {
               var email = error.email;
               // The firebase.auth.AuthCredential type that was used.
               var credential = error.credential;
-              console.log("1 "+ errorCode)
-              console.log("2 "+ errorMessage)
-              console.log("3 "+ email)
-              console.log("4 "+ credential)
-              // ...
             });
           } else {
             console.log('User already signed-in Firebase.');
           }
         });
       }
-
     const signInWithGoogleAsync = async () => {
         try {
           const result = await Google.logInAsync({
