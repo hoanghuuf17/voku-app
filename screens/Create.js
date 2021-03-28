@@ -21,7 +21,7 @@ const Create = () => {
 
     const addSubject = ()=> {
             db.collection('dates')
-            .doc('gtyHtMCuVsEEg3aAjoAm')
+            .doc('Llk7P6QzyqhuuvUQx8Wn')
             .collection('subjects')
             .add({
                 name : name,

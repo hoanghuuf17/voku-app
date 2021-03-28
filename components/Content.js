@@ -27,25 +27,25 @@ const Content = () => {
                 {dateSubjects?.docs.map(doc=> {
                     const {name, subject, session, room} = doc.data();
                      return(
-                        <View  key={doc.id} id = {doc.id} style={styles.container}>
-                            <View style={styles.avatar}>
-                                <Avatar
-                                    rounded
-                                    source={{
-                                        uri: "https://i.pravatar.cc/150?img=48"
-                                    }}
-                                />
+                            <View  key={doc.id} id = {doc.id} style={styles.container}>
+                                <View style={styles.avatar}>
+                                    <Avatar
+                                        rounded
+                                        source={{
+                                            uri: "https://i.pravatar.cc/150?img=48"
+                                        }}
+                                    />
+                                </View>
+                                <View style={styles.title}>
+                                    <Text style={styles.subject}>{subject}</Text>
+                                    <Text style={styles.name}> {name}</Text>
+                                </View>
+                                <View style={styles.subtitle}>
+                                    <Text style={styles.room}> {room}</Text>
+                                    <Text style={styles.session}>{session}</Text>
+                                </View>
                             </View>
-                            <View style={styles.title}>
-                                <Text style={styles.subject}>{subject}</Text>
-                                <Text style={styles.name}> {name}</Text>
-                            </View>
-                            <View style={styles.subtitle}>
-                                <Text style={styles.room}> {room}</Text>
-                                <Text style={styles.session}>{session}</Text>
-                            </View>
-                        </View>
-                    )
+                            )
                      })} 
                 </>
             )}
