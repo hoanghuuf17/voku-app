@@ -3,7 +3,7 @@ import { StyleSheet, Text, View,TouchableOpacity } from 'react-native'
 import {useDispatch} from 'react-redux';
 import { enterDate } from '../features/appDate';
 
-const Footer = ({id,date}) => {
+const Date = ({id,date}) => {
         const dispatch = useDispatch();
         const [state, setState] = useState({
             backgroundColor: 'transparent',
@@ -32,7 +32,7 @@ const Footer = ({id,date}) => {
     )
 }
 
-export default Footer
+export default Date
 
 const styles = StyleSheet.create({
     container:{

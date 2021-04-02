@@ -3,7 +3,7 @@ import { Avatar } from 'react-native-elements'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import {AntDesign, SimpleLineIcons} from '@expo/vector-icons';
 import Content from './../components/Content';
-import Footer from './../components/Footer';
+import Date from './../components/Footer';
 import { auth, db } from '../firebase';
 import {useSelector} from 'react-redux';
 import { selectDateId } from '../features/appDate';
@@ -12,10 +12,9 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 const HomeScreen = ({navigation}) => {
     const [user] = useAuthState(auth);
-    const [dates ,setDates] = useState([])
-    const [id ,setId] = useState([])
     const dateId = useSelector(selectDateId)
-
+    const [dates ,setDates] = useState([])
+    
     const [dateDetail] = useDocument(
         dateId && db.collection('dates').doc(dateId)
     );
@@ -60,7 +59,7 @@ const HomeScreen = ({navigation}) => {
         })
        
     }, [navigation])
-    
+
     useEffect(()=>{
         const unsubscribe = db
             .collection('dates')
@@ -87,7 +86,7 @@ const HomeScreen = ({navigation}) => {
             <View style={styles.footer}>
                 {
                     dates.map(({id, data: {date}})=> (
-                    <Footer date={date} id={id} key={id}/>
+                    <Date date={date} id={id} key={id}/>
                     ))
                 } 
             </View>

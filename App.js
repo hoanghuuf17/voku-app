@@ -21,7 +21,7 @@ export default function App(navigation) {
         <NavigationContainer>
             <Stack.Navigator>
                     <Stack.Screen name="Login" component= {LoginScreen}/>
-                    <Stack.Screen name="Home" component= {HomeScreen}/>
+                    <Stack.Screen name="Home" component= {HomeScreen}/> 
                     {/* <Stack.Screen name="Create" component= {Create}/>  */}
               </Stack.Navigator>
         </NavigationContainer>
