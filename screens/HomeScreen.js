@@ -3,7 +3,7 @@ import { Avatar } from 'react-native-elements'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import {AntDesign, SimpleLineIcons} from '@expo/vector-icons';
 import Content from './../components/Content';
-import Date from './../components/Footer';
+import Date from '../components/Date';
 import { auth, db } from '../firebase';
 import {useSelector} from 'react-redux';
 import { selectDateId } from '../features/appDate';
