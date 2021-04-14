@@ -1,5 +1,5 @@
 import React,{useLayoutEffect,useEffect} from 'react'
-import { StyleSheet, View, Image } from 'react-native'
+import { StyleSheet, View, Image,SafeAreaView } from 'react-native'
 import { Button } from 'react-native-elements';
 import { auth } from '../firebase';
 import * as Google from 'expo-google-app-auth';
@@ -93,7 +93,7 @@ const LoginScreen = () => {
     },[navigation])
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
               <View  style={styles.image}>
                 <Image style={{height: 70, width: 400}} source={require('../images/logo2.png')} />
                 <Image style={{ height: 200, width: '100%', marginTop : 10}} source={require('../images/sict2.jpg')} />
@@ -108,7 +108,7 @@ const LoginScreen = () => {
                         borderRadius : 7
                     }}/> 
               </View>
-        </View>
+        </SafeAreaView>
     )
 }
 

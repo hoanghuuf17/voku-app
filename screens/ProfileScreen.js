@@ -1,11 +1,30 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View,SafeAreaView } from 'react-native'
+import { Button } from 'react-native-elements';
+import { auth, db } from '../firebase'
+
 
 const ProfileScreen = () => {
+    const signOutUser = () =>{
+        auth.signOut().then(()=> {
+            navigation.replace('Login');
+        })
+    }
     return (
-        <View>
-            <Text>ProfileScreen</Text>
-        </View>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.top}>
+                
+            </View>   
+            <View style={styles.bottom}>
+                    <Button 
+                    onPress={signOutUser}
+                    title="Đăng xuất"  
+                    buttonStyle={{
+                        backgroundColor: "#2CC5EF",
+                        borderRadius : 7
+                    }}/> 
+            </View>   
+        </SafeAreaView>
     )
 }
 

@@ -31,7 +31,6 @@ const tabNavigation = () => {
             ) : (
                 <>
                     <Tab.Screen name="Login" component={LoginScreen}/>
-                    <Tab.Screen name="Home" component={HomeScreen} initialParams={{icon : 'home'}}/>
                 </>
             )}
             
