@@ -1,16 +1,19 @@
 import React,{useLayoutEffect,useEffect} from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, View, Image } from 'react-native'
 import { Button } from 'react-native-elements';
-import { auth, provider } from '../firebase';
+import { auth } from '../firebase';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
+import {useNavigation} from '@react-navigation/native'
 
-const LoginScreen = ({navigation}) => {
 
+
+const LoginScreen = () => {
+    const navigation = useNavigation();
       useEffect(()=>{
         const unSubscrible = auth.onAuthStateChanged((authUser) => {
             if(authUser){
-                navigation.replace("Home");
+                navigation.navigate("Home");
             }
         });
         return unSubscrible;
