@@ -1,10 +1,12 @@
-import React,{useState} from 'react'
-import { StyleSheet, Dimensions, View } from 'react-native'
+import React,{useState} from 'react';
+import { StyleSheet, Dimensions, View } from 'react-native';
+import { auth } from '../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import Tab from './Tab';
 
 const {width} = Dimensions.get('screen');
 const TabBar = ({state, navigation}) => {
-
+    const [user] = useAuthState(auth);
     const [selected, setSelected] = useState('Home')
     const {routes} = state;
     const renderColor = (name) =>{
@@ -22,17 +24,24 @@ const TabBar = ({state, navigation}) => {
     }
     return (
         <View style={styles.background}>
-           <View style={styles.container}>
+            {user ? (
+                <View style={styles.container}>
                 {
                     routes.map((route, index) => <Tab 
-                        key={route.key}
-                        tab={route} 
-                        icon= {route.params?.icon} 
-                        onPress={() => Press(route.name, index)}    
-                        color={renderColor(route.name)}
-                        />)
-                }
-           </View>
+                                key={route.key}
+                                tab={route} 
+                                icon= {route.params?.icon} 
+                                onPress={() => Press(route.name, index)}    
+                                color={renderColor(route.name)}
+                                />)
+                        }
+                </View>
+            ) : (
+                <View>
+                    
+                </View>
+            )}
+           
         </View>
     )
 }
