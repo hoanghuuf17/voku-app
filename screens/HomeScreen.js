@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View,TouchableOpacity, Image } from 'react-native'
 import { Avatar } from 'react-native-elements'
 import { auth} from '../firebase';
-import { useAuthState } from 'react-firebase-hooks/auth'
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
