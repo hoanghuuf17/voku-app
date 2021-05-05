@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const appDate = createSlice({
   name: 'app',
   initialState: {
-    dateId: null,
+    dateId: 'Bpg1SQkDWaLNRy82sQa6',
   },
   reducers: {
     enterDate: (state, action) => {

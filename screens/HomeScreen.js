@@ -5,9 +5,12 @@ import { auth} from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+
 
 const HomeScreen = () => {
     const [user] = useAuthState(auth);
+    const navigation = useNavigation();
 
     return (
         <View style={styles.container}>
@@ -21,11 +24,11 @@ const HomeScreen = () => {
                 />
             </View>
             <View style={styles.title}>
-                <Text style={styles.titleText}>Xin chào Thắm</Text>
+                <Text style={styles.titleText}>Xin chào {user.displayName}</Text>
             </View>
             <View style={styles.menu}>
                 <View  style={styles.menuLeft}>
-                    <TouchableOpacity style={styles.leftTop}>
+                    <TouchableOpacity style={styles.leftTop} onPress={()=> navigation.navigate('Notify')}>
                         <View>
                             <View style={{left : 100}}> 
                                 <AntDesign name="arrowright" size={29} color="white" />
@@ -36,7 +39,7 @@ const HomeScreen = () => {
 
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.leftBot}>
+                    <TouchableOpacity style={styles.leftBot} onPress={()=> navigation.navigate('Search')}>
                         <View style={{flexDirection : 'column'}}>
                         <View style={{flexDirection : 'row', justifyContent : 'space-between', top : 5, alignItems  :'center'}}>
                             <AntDesign name="search1" size={54} color="white"/>
@@ -50,7 +53,7 @@ const HomeScreen = () => {
                     </TouchableOpacity>
                 </View>
                 <View  style={styles.menuRight}>
-                    <TouchableOpacity style={styles.rightTop}>
+                    <TouchableOpacity style={styles.rightTop} onPress={()=> navigation.navigate('Schedual')}>
                         <View style={{flexDirection : 'column'}}>
                         <View style={{flexDirection : 'row', justifyContent : 'space-between', top : 5, alignItems  :'center'}}>
                             <AntDesign name="calendar" size={54} color="white" />
@@ -61,7 +64,7 @@ const HomeScreen = () => {
                         </View>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.rightBot}>
+                    <TouchableOpacity style={styles.rightBot} onPress={()=> navigation.navigate('Profile')}>
                         <View style={{alignItems : 'center'}}>
                             <View style={{top : 20}}> 
                                 <FontAwesome5 name="user-circle" size={84} color="white" />
@@ -129,9 +132,16 @@ const styles = StyleSheet.create({
         top : 5,
         flex : 5,
         flexDirection : 'row',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
     },
     menuLeft:{
-        backgroundColor : 'white',
         flex : 2.5,
         flexDirection : 'column'
     },

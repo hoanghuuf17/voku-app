@@ -1,22 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View,Image } from 'react-native';
+import { StyleSheet, Text, View,Image, TouchableOpacity } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
-const New = () => {
+const New = (props) => {
+    const {title, duration, picture, onPress} = props;
     return (
-        <View style={styles.container}>
+        <TouchableOpacity onPress={onPress} style={styles.container}>
             <View style={styles.left}>
-                <Image style={styles.image} source={require('./../assets/slide.png')}/>
+                <Image style={styles.image} source={{ uri: `${picture}`}}/>
             </View>
             <View style={styles.right}>
                 <View style={{flexDirection : 'row', justifyContent : 'space-between', top : 20}}>
                     <Text style={styles.title}>Thông báo</Text>
-                    <Text style={styles.time}><AntDesign name="calendar" size={20} color="#363636"/>{' '}25/03/2021 </Text>
+                    <Text style={styles.time}><AntDesign name="calendar" size={20} color="#363636"/>{' '}{duration} </Text>
                 </View>
-                <Text style={styles.content}>Thi khảo sát năng lực đáp ứng chuẩn đầu ra tiếng Anh và Tin học năm 2021</Text>
+                <Text style={styles.content}>{title}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     image:{
        height : 90,
        width : 90,
-       borderRadius : 25
+       borderRadius : 25,
     },
     right:{
         flex : 8,
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
         color : '#363636'
     },
     content:{
-        top : 20,
+        top : 30,
         textAlign : 'justify',
         padding : 10,
         fontWeight : '600'

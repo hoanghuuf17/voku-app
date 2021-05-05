@@ -1,28 +1,51 @@
-import React,{useEffect,useState} from 'react'
-import { StyleSheet, Text, View, SafeAreaView,FlatList } from 'react-native'
+import React,{useEffect,useState} from 'react';
+import { StyleSheet, Text, View, SafeAreaView,FlatList } from 'react-native';
 import { auth, db} from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Avatar } from 'react-native-elements'
 import Item from '../components/item';
 import Subject from '../components/subject';
+import { selectDateId } from '../features/appDate';
+import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {enterDate} from '../features/appDate';
+import {useCollection,useDocument} from 'react-firebase-hooks/firestore';
 
 
 const SchedualScreen = () => {
     const [user] = useAuthState(auth);
-    const [dates, setDates] = useState([])
+    const [dates, setDates] = useState([]);
+    const dispatch = useDispatch();
+    const dateId = useSelector(selectDateId);
+    
+    const [dateDetail] = useDocument(
+        dateId && db.collection('dates').doc(dateId)
+    );
+
+    const [dateSubjects] = useCollection(
+        dateId && db.collection('dates').doc(dateId).collection('subjects').orderBy('session', "asc")
+    );
 
     useEffect(() => {
-       const unsubscribe = db.collection('dates').orderBy('date').onSnapshot((snapshot) =>
-                {
-                    setDates(snapshot.docs.map(doc => ({
-                        id : doc.id,
-                        data : doc.data()
-                    }))
-                )}
-        )
-       return unsubscribe
+       const unsubscribe = db
+       .collection('dates')
+       .orderBy('date', "asc")
+       .onSnapshot((snapshot) =>{
+            setDates(snapshot.docs.map(doc => ({
+                id : doc.id,
+                data : doc.data()
+            }))
+        )})
+       return unsubscribe;
     }, [])
 
+    const onPress = (id) => {
+        if(id){
+            dispatch(enterDate({
+                dateId : id
+            }))
+        }
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -42,13 +65,20 @@ const SchedualScreen = () => {
             <FlatList
                 horizontal
                 data={dates}
-                renderItem={Item}
+                renderItem={({item}) => <Item isSelected={item.id === dateId} item={item} onPress={onPress}/>}
                 keyExtractor={item => item.id}
                 />
             </View>
             <View style={styles.news}>
-                <Subject/>
-                <Subject/>
+               {dateDetail && dateSubjects && (
+                    <>
+                        {dateSubjects?.docs.map(doc=> {
+                            const {name, subject, session, room} = doc.data();
+                            return(<Subject name={name} subject={subject} session={session} room={room} key={doc.id}/>);
+                        })}
+                    </>
+               )
+               }
             </View>
         </SafeAreaView>
     )
