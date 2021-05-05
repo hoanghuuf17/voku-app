@@ -6,7 +6,6 @@ import Tab from './Tab';
 
 const {width} = Dimensions.get('screen');
 const TabBar = ({state, navigation}) => {
-    console.log(state)
     const [user] = useAuthState(auth);
     const [selected, setSelected] = useState('Home')
     const {routes} = state;
