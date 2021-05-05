@@ -5,10 +5,12 @@ import { auth} from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
-import {navigation} from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native';
+
 
 const HomeScreen = () => {
     const [user] = useAuthState(auth);
+    const navigation = useNavigation();
 
     return (
         <View style={styles.container}>
@@ -37,7 +39,7 @@ const HomeScreen = () => {
 
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.leftBot}>
+                    <TouchableOpacity style={styles.leftBot} onPress={()=> navigation.navigate('Search')}>
                         <View style={{flexDirection : 'column'}}>
                         <View style={{flexDirection : 'row', justifyContent : 'space-between', top : 5, alignItems  :'center'}}>
                             <AntDesign name="search1" size={54} color="white"/>
@@ -51,7 +53,7 @@ const HomeScreen = () => {
                     </TouchableOpacity>
                 </View>
                 <View  style={styles.menuRight}>
-                    <TouchableOpacity style={styles.rightTop}>
+                    <TouchableOpacity style={styles.rightTop} onPress={()=> navigation.navigate('Schedual')}>
                         <View style={{flexDirection : 'column'}}>
                         <View style={{flexDirection : 'row', justifyContent : 'space-between', top : 5, alignItems  :'center'}}>
                             <AntDesign name="calendar" size={54} color="white" />
@@ -62,7 +64,7 @@ const HomeScreen = () => {
                         </View>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.rightBot}>
+                    <TouchableOpacity style={styles.rightBot} onPress={()=> navigation.navigate('Profile')}>
                         <View style={{alignItems : 'center'}}>
                             <View style={{top : 20}}> 
                                 <FontAwesome5 name="user-circle" size={84} color="white" />

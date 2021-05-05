@@ -29,7 +29,7 @@ const SchedualScreen = () => {
     useEffect(() => {
        const unsubscribe = db
        .collection('dates')
-       .orderBy('date')
+       .orderBy('date', "asc")
        .onSnapshot((snapshot) =>{
             setDates(snapshot.docs.map(doc => ({
                 id : doc.id,
