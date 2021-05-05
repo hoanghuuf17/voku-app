@@ -5,6 +5,7 @@ import { auth} from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import {navigation} from '@react-navigation/native'
 
 const HomeScreen = () => {
     const [user] = useAuthState(auth);
@@ -21,11 +22,11 @@ const HomeScreen = () => {
                 />
             </View>
             <View style={styles.title}>
-                <Text style={styles.titleText}>Xin chào Thắm</Text>
+                <Text style={styles.titleText}>Xin chào {user.displayName}</Text>
             </View>
             <View style={styles.menu}>
                 <View  style={styles.menuLeft}>
-                    <TouchableOpacity style={styles.leftTop}>
+                    <TouchableOpacity style={styles.leftTop} onPress={()=> navigation.navigate('Notify')}>
                         <View>
                             <View style={{left : 100}}> 
                                 <AntDesign name="arrowright" size={29} color="white" />
@@ -129,9 +130,16 @@ const styles = StyleSheet.create({
         top : 5,
         flex : 5,
         flexDirection : 'row',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
     },
     menuLeft:{
-        backgroundColor : 'white',
         flex : 2.5,
         flexDirection : 'column'
     },

@@ -1,17 +1,18 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react';
+import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 
-const Item = ({item}) => {
-    
+ 
+const Item = (props) => {
+    const {onPress, item} = props;
     const date = item.data.date;
     const num = item.data.date;
     return (
-        <View style={styles.container}>
+        <TouchableOpacity onPress={() => onPress(item.id)} style={styles.container}>
             <View style={styles.item}>
                 <Text style={styles.top}>{date.slice(0, -1)}</Text>
                 <Text style={styles.bottom}>{num.slice(4)}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

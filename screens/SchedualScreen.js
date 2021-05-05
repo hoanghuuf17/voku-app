@@ -5,11 +5,18 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { Avatar } from 'react-native-elements'
 import Item from '../components/item';
 import Subject from '../components/subject';
+import { selectDateId } from '../features/appDate';
+import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {enterDate} from '../features/appDate';
 
 
 const SchedualScreen = () => {
     const [user] = useAuthState(auth);
     const [dates, setDates] = useState([])
+    const dispatch = useDispatch();
+    const dateId = useSelector(selectDateId)
+    console.log(dateId)
 
     useEffect(() => {
        const unsubscribe = db.collection('dates').orderBy('date').onSnapshot((snapshot) =>
@@ -23,6 +30,13 @@ const SchedualScreen = () => {
        return unsubscribe
     }, [])
 
+    const onPress = (id) => {
+        if(id){
+            dispatch(enterDate({
+                dateId : id
+            }))
+        }
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -42,7 +56,7 @@ const SchedualScreen = () => {
             <FlatList
                 horizontal
                 data={dates}
-                renderItem={Item}
+                renderItem={({item}) => <Item item={item} onPress={onPress}/>}
                 keyExtractor={item => item.id}
                 />
             </View>
