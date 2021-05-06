@@ -1,18 +1,16 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
-import LoginScreen from '../screens/LoginScreen';
 import Create from '../screens/Create';
 import NotifyScreen from './notifyStack';
-import SchedualScreen from '../screens/SchedualScreen'
-import ProfileScreen from '../screens/ProfileScreen'
-import SearchScreen from '../screens/SearchScreen'
-import DetailScreen from '../screens/DetailScreen'
+import SchedualScreen from '../screens/SchedualScreen';
+import ProfileScreen from '../navigation/profileStack';
+import SearchScreen from '../navigation/searchStack';
 import { auth } from '../firebase';
-import { useAuthState } from 'react-firebase-hooks/auth'
+import { useAuthState } from 'react-firebase-hooks/auth';
 import TabBar from './TabBar';
 import { NavigationContainer } from '@react-navigation/native';
+import Loading from './tabLoading';
 
 const Tab = createBottomTabNavigator()
 const tabNavigation = () => {
@@ -31,7 +29,7 @@ const tabNavigation = () => {
                 </>
             ) : (
                 <>
-                    <Tab.Screen name="Login" component={LoginScreen}/>
+                    <Tab.Screen name="Login" component={Loading}/>
                 </>
             )}
         </Tab.Navigator>
@@ -41,4 +39,3 @@ const tabNavigation = () => {
 
 export default tabNavigation
 
-const styles = StyleSheet.create({})
