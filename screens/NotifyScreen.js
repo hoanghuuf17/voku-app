@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
         backgroundColor : 'white'
     },
     header:{
-        flex : 1,
         flexDirection : 'row',
         justifyContent : 'space-between',
         alignItems : 'center',
@@ -95,7 +94,6 @@ const styles = StyleSheet.create({
     menu:{
         flex : 2,
         flexDirection : 'row',
-        padding : 10,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -114,8 +112,8 @@ const styles = StyleSheet.create({
         top : -100
     },
     slide:{
-        height : 300,
-        width : 300,
+        height : 320,
+        width : 320,
         resizeMode : 'contain',
         
     }

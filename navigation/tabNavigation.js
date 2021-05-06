@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import Create from '../screens/Create';
@@ -40,4 +39,3 @@ const tabNavigation = () => {
 
 export default tabNavigation
 
-const styles = StyleSheet.create({})
