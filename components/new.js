@@ -6,7 +6,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 const New = (props) => {
     const {title, duration, picture, onPress} = props;
     return (
-        <TouchableOpacity onPress={onPress} style={styles.container}>
+        <TouchableOpacity activeOpacity={0.5} onPress={onPress} style={styles.container}>
             <View style={styles.left}>
                 <Image style={styles.image} source={{ uri: `${picture}`}}/>
             </View>

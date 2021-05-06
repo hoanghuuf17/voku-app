@@ -1,6 +1,5 @@
 import React,{useLayoutEffect,useEffect} from 'react'
-import { StyleSheet, View, Image,SafeAreaView } from 'react-native'
-import { Button } from 'react-native-elements';
+import { StyleSheet, View, Image,SafeAreaView, Text, TouchableOpacity } from 'react-native'
 import { auth } from '../firebase';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
@@ -15,9 +14,43 @@ const LoginScreen = () => {
     
     useEffect(()=>{
           if(user){
-               navigation.navigate("Home");
+              navigation.navigate("Home");
           }
     },[])
+
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        title : "false",
+        headerStyle : {backgroundColor : '#2CC5EF'},
+        headerTitleStyle : {color : 'white'},
+        headerTintColor : 'white',
+        // headerLeft : () =>(
+        //     <View style={{marginLeft: 20}}>
+        //         <TouchableOpacity onPress={signOutUser} activeOpacity={0.5}>
+        //             <Avatar
+        //                 rounded
+        //                 source ={{ uri : auth?.currentUser?.photoURL }}
+        //             />
+        //         </TouchableOpacity>
+        //     </View>
+        // ),
+        // headerRight : () => (
+        //     <View style={{
+        //         flexDirection: 'row',
+        //         justifyContent: 'space-between',
+        //         width : 80,
+        //         marginRight: 20,
+        //     }}>
+        //         <TouchableOpacity activeOpacity={0.5}>
+        //             <AntDesign name="camerao" size={24} color="black"/>
+        //         </TouchableOpacity>
+        //         <TouchableOpacity onPress={() => navigation.navigate('AddChat')} activeOpacity={0.5}>
+        //             <SimpleLineIcons name="pencil" size={24} color="black"/>
+        //         </TouchableOpacity>
+        //     </View>
+        // )
+    })
+    }, [navigation])
 
     const isUserEqual = (googleUser, firebaseUser) => {
         if (firebaseUser) {
@@ -87,17 +120,19 @@ const LoginScreen = () => {
               <View  style={styles.image}>
                 <Image style={{height: 70, width: 400}} source={require('../images/logo2.png')} />
                 <Image style={{ height: 200, width: '100%', marginTop : 10}} source={require('../images/sict2.jpg')} />
+                <Text style={{padding : 20, color : '#858282', fontSize : 16}}>Bắt đầu từ 14/8/2020, tài khoản đăng nhập của sinh viên có cú pháp họ đêm viết tắt + tên + lớp sinh hoạt @vku.udn.vn.</Text>
               </View>  
 
               <View style={styles.button}>
-              <Button 
-                    onPress={signInWithGoogleAsync}
-                    title="Đăng nhập vào hệ thống đào tạo"  
-                    buttonStyle={{
-                        backgroundColor: "#5cb85c",
-                        borderRadius : 7
-                    }}/> 
+                <TouchableOpacity activeOpacity={0.5} style={styles.btn} onPress={signInWithGoogleAsync}>
+                  <Text style={styles.txt}>ĐĂNG NHẬP HỆ THỐNG ĐÀO TẠO</Text>
+                </TouchableOpacity>  
+                
+                <TouchableOpacity activeOpacity={0.5} style={[styles.btn,{backgroundColor : '#FEC27D', top : 20}]} onPress={()=> console.log("pressed")}>
+                  <Text style={styles.txt}>ĐĂNG NHẬP E-LEARNING</Text>
+                </TouchableOpacity>  
               </View>
+              
         </SafeAreaView>
     )
 }
@@ -106,23 +141,42 @@ export default LoginScreen
 
 const styles = StyleSheet.create({
     container:{
-        flex: 1,
-        backgroundColor : 'white',
-        flexDirection : 'column',
-        alignItems : 'center'
+        display : 'flex',
+        flex : 1,
+        backgroundColor : 'white'
     },
     image:{
         marginTop : 20,
-    flex: 4 ,
-    alignItems : 'center',
-       height : '100%',
-       width : '100%'
+        flex: 5 ,
+        alignItems : 'center',
+        height : '100%',
+        width : '100%',
     },
     button:{
-        marginTop : 150,
-        flex :6,
-        width  :"70%"
+      top : 30,
+      flex :5,
+      width: "70%",
+      alignSelf : 'center'
     },
+    btn:{
+      backgroundColor : '#2CC5EF', 
+      padding : 20,
+      alignItems : 'center',
+      borderRadius : 10,
+      shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
+    },
+    txt:{
+      color : 'white',
+      fontSize : 15,
+      fontWeight : '700'
+    }
 
 
 })
