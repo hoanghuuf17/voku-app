@@ -24,7 +24,7 @@ const HomeScreen = () => {
                 />
             </View>
             <View style={styles.title}>
-                <Text style={styles.titleText}>Xin chào {user.displayName}</Text>
+                <Text style={styles.titleText}>Xin chào {user?.displayName}</Text>
             </View>
             <View style={styles.menu}>
                 <View  style={styles.menuLeft}>

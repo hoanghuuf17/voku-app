@@ -4,19 +4,19 @@ import { Button } from 'react-native-elements';
 import { auth } from '../firebase';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
+import { useAuthState } from 'react-firebase-hooks/auth'
 import {useNavigation} from '@react-navigation/native'
 
 
 
 const LoginScreen = () => {
     const navigation = useNavigation();
-      useEffect(()=>{
-        const unSubscrible = auth.onAuthStateChanged((authUser) => {
-            if(authUser){
-                navigation.navigate("Home");
-            }
-        });
-        return unSubscrible;
+    const [user] = useAuthState(auth);
+    
+    useEffect(()=>{
+          if(user){
+               navigation.navigate("Home");
+          }
     },[])
 
     const isUserEqual = (googleUser, firebaseUser) => {
@@ -34,7 +34,7 @@ const LoginScreen = () => {
       }
 
     const onSignIn = (googleUser) => {
-        console.log('Google Auth Response', googleUser);
+        // console.log('Google Auth Response', googleUser);
         // We need to register an Observer on Firebase Auth to make sure auth is initialized.
         var unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
           unsubscribe();
@@ -48,9 +48,6 @@ const LoginScreen = () => {
 
             // Sign in with credential from the Google user.
             firebase.auth().signInWithCredential(credential).then(function(result) {
-              console.log(result);
-              console.log(result.user);
-              console.log('passed')
             })
             .catch((error) => {
               // Handle Errors here.
@@ -84,13 +81,6 @@ const LoginScreen = () => {
           return { error: true };
         }
       }
-
-
-    useLayoutEffect(()=>{
-        navigation.setOptions({
-            title : "Đăng nhập",
-        })
-    },[navigation])
 
     return (
         <SafeAreaView style={styles.container}>
