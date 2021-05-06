@@ -5,7 +5,7 @@ import Create from '../screens/Create';
 import NotifyScreen from './notifyStack';
 import SchedualScreen from '../screens/SchedualScreen';
 import ProfileScreen from '../navigation/profileStack';
-import SearchScreen from '../screens/SearchScreen';
+import SearchScreen from '../navigation/searchStack';
 import { auth } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import TabBar from './TabBar';
