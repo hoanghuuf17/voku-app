@@ -26,9 +26,29 @@ const SearchScreen = ({navigation}) => {
          return post;
      }, [])
 
-    const search = (e) =>{
-        setInput(e)
-    }
+    const search = (text) => {
+        // Check if searched text is not blank
+        if (text) {
+          // Inserted text is not blank
+          // Filter the masterDataSource
+          // Update FilteredDataSource
+          const newData = posts.filter(
+            function (item) {
+              const itemData = item.data.title
+                ? item.data.title.toUpperCase()
+                : ''.toUpperCase();
+              const textData = text.toUpperCase();
+              return itemData.indexOf(textData) > -1;
+          });
+          setData(newData);
+          setInput(text);
+        } else {
+          // Inserted text is blank
+          // Update FilteredDataSource with masterDataSource
+          setData(posts);
+          setInput(text);
+        }
+      };
 
     const selectNotify = (id) => {
         navigation.navigate('Detail', {id : id})
@@ -48,8 +68,8 @@ const SearchScreen = ({navigation}) => {
             </View>
             <View style={styles.content}>
                 <ScrollView>
-                    {posts && 
-                        posts.map(doc => {
+                    {data && 
+                        data.map(doc => {
                             const {title, duration, viewer, content, picture} = doc.data;
                             return(<New 
                                 onPress={()=> selectNotify(doc.id)}
