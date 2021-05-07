@@ -1,21 +1,43 @@
-import React from 'react'
-import { StyleSheet, Text, View,TouchableOpacity, Image } from 'react-native'
+import React, {useEffect,useState} from 'react'
+import { 
+    StyleSheet, 
+    Text, 
+    View,
+    TouchableOpacity, 
+    Image, 
+    SafeAreaView, 
+    ScrollView, 
+} from 'react-native'
 import { Avatar } from 'react-native-elements'
-import { auth} from '../firebase';
+import { auth, db} from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-
+import { selectDateId } from '../features/appDate';
+import {useSelector} from 'react-redux';
 
 const HomeScreen = () => {
     const [user] = useAuthState(auth);
     const navigation = useNavigation();
+    const dateId = useSelector(selectDateId);
+    const [date, setDate] = useState(null)
+
+    useEffect(() => {
+        const unsubscribe = db.collection('dates').onSnapshot((snapshot) =>{
+            snapshot.docs.map(doc => {
+                if(doc.id == dateId){
+                    setDate(doc.data())
+                }
+            }
+        )});
+        return unsubscribe;
+     }, [])
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.date}>THỨ TƯ, 07</Text>
+                {date && <Text style={styles.date}>{date.date.toUpperCase()}, 29</Text>}
                 <Avatar
                 size ={50}
                     rounded
@@ -26,60 +48,61 @@ const HomeScreen = () => {
             <View style={styles.title}>
                 <Text style={styles.titleText}>Xin chào {user?.displayName}</Text>
             </View>
-            <View style={styles.menu}>
-                <View  style={styles.menuLeft}>
-                    <TouchableOpacity style={styles.leftTop} onPress={()=> navigation.navigate('Notify')}>
-                        <View>
-                            <View style={{left : 100}}> 
-                                <AntDesign name="arrowright" size={29} color="white" />
-                            </View>
-                            <Image style={{width : 120, height : 70, top : 20}} source={require('./../images/logo.png')}/>
-                            <Text style={{ color : 'white', fontSize : 23, fontWeight : '500', top : 40}}>Tin tức</Text>
-                            <Text style={{ color : 'white', fontSize : 23, fontWeight : '500', top : 40}}>hoạt động</Text>
-
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.leftBot} onPress={()=> navigation.navigate('Search')}>
-                        <View style={{flexDirection : 'column'}}>
-                        <View style={{flexDirection : 'row', justifyContent : 'space-between', top : 5, alignItems  :'center'}}>
-                            <AntDesign name="search1" size={54} color="white"/>
-                            <AntDesign name="arrowright" size={29} color="white"/>
-                        </View>
-                        <View style={{alignItems : 'center'}}>
-                            <Text style={{ color : 'white', fontSize : 23, fontWeight : '500', top : 20}}>Tra cứu</Text>
-                            <Text style={{ color : 'white', fontSize : 23, fontWeight : '500',top : 20}}>thông tin</Text>
-                        </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <View  style={styles.menuRight}>
-                    <TouchableOpacity style={styles.rightTop} onPress={()=> navigation.navigate('Schedual')}>
-                        <View style={{flexDirection : 'column'}}>
-                        <View style={{flexDirection : 'row', justifyContent : 'space-between', top : 5, alignItems  :'center'}}>
-                            <AntDesign name="calendar" size={54} color="white" />
-                            <AntDesign name="arrowright" size={29} color="white"/>
-                        </View>
-                        <View style={{alignItems : 'center'}}>
-                            <Text style={{ color : 'white', fontSize : 23, fontWeight : '500',top : 40}}>Lịch học</Text>
-                        </View>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.rightBot} onPress={()=> navigation.navigate('Profile')}>
-                        <View style={{alignItems : 'center'}}>
-                            <View style={{top : 20}}> 
-                                <FontAwesome5 name="user-circle" size={84} color="white" />
-                            </View>
-                                <Text style={{ color : 'white', fontSize : 23, fontWeight : '500', top : 40}}>Thông tin</Text>
-                                <Text style={{ color : 'white', fontSize : 23, fontWeight : '500',top : 40}}>cá nhân</Text>
-                                <View style={{top : 50, left : 60}}> 
+            <ScrollView>
+                <View style={styles.menu}>
+                    <View  style={styles.menuLeft}>
+                        <TouchableOpacity style={styles.leftTop} onPress={()=> navigation.navigate('Notify')}>
+                            <View>
+                                <View style={{left : 100}}> 
                                     <AntDesign name="arrowright" size={29} color="white" />
+                                </View>
+                                <Image style={{width : 120, height : 70}} source={require('./../images/logo.png')}/>
+                                <Text style={{ color : 'white', fontSize : 23, fontWeight : '500'}}>Tin tức</Text>
+                                <Text style={{ color : 'white', fontSize : 23, fontWeight : '500'}}>hoạt động</Text>
+
                             </View>
-                            
-                        </View>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.leftBot} onPress={()=> navigation.navigate('Search')}>
+                            <View style={{flexDirection : 'column'}}>
+                            <View style={{flexDirection : 'row', justifyContent : 'space-between', top : 5, alignItems  :'center'}}>
+                                <AntDesign name="search1" size={54} color="white"/>
+                                <AntDesign name="arrowright" size={29} color="white"/>
+                            </View>
+                            <View style={{alignItems : 'center'}}>
+                                <Text style={{ color : 'white', fontSize : 23, fontWeight : '500'}}>Tra cứu</Text>
+                                <Text style={{ color : 'white', fontSize : 23, fontWeight : '500'}}>thông tin</Text>
+                            </View>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View  style={styles.menuRight}>
+                        <TouchableOpacity style={styles.rightTop} onPress={()=> navigation.navigate('Schedual')}>
+                            <View style={{flexDirection : 'column'}}>
+                            <View style={{flexDirection : 'row', justifyContent : 'space-between', top : 5, alignItems  :'center'}}>
+                                <AntDesign name="calendar" size={54} color="white" />
+                                <AntDesign name="arrowright" size={29} color="white"/>
+                            </View>
+                            <View style={{alignItems : 'center'}}>
+                                <Text style={{ color : 'white', fontSize : 23, fontWeight : '500',top : 10}}>Lịch học</Text>
+                            </View>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.rightBot} onPress={()=> navigation.navigate('Profile')}>
+                            <View style={{alignItems : 'center'}}>
+                                <View style={{top : 20}}> 
+                                    <FontAwesome5 name="user-circle" size={84} color="white" />
+                                </View>
+                                    <Text style={{ color : 'white', fontSize : 23, fontWeight : '500', top : 40}}>Thông tin</Text>
+                                    <Text style={{ color : 'white', fontSize : 23, fontWeight : '500',top : 40}}>cá nhân</Text>
+                                    <View style={{top : 50, left : 60}}> 
+                                        <AntDesign name="arrowright" size={29} color="white" />
+                                </View>
+                                
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
-            <View style={styles.news}>
+                <View style={styles.news}>
                 <View style={{flexDirection : 'row', padding : 10}}>
                     <Text style={{ fontSize: 16, fontWeight : 'bold', color : '#666666'}}>TIN TỨC NỔI BẬT</Text>
                     <Text style={{left : 220,color : '#666666'}}>Tất cả..</Text>
@@ -90,7 +113,8 @@ const HomeScreen = () => {
                     <Text>tịch Hội đồng Đại học Đà Nẵng nhiệm kỳ 2021-2026</Text>
                 </View>
             </View>
-        </View>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 
@@ -104,11 +128,9 @@ const styles = StyleSheet.create({
         backgroundColor : 'white'
     },
     header:{
-        flex : 1.5,
-        top  : 40,
+        flex : 0.5,
         flexDirection : 'row',
-        justifyContent : 'space-between'
-        
+        justifyContent : 'space-between',
     },
     date:{
         fontWeight : 'bold',
@@ -120,7 +142,7 @@ const styles = StyleSheet.create({
         flex : 0.5,
         backgroundColor : '#fff',
         borderColor : '#858585',
-        borderBottomWidth : 0.3
+        borderBottomWidth : 0.3,
 
     },
     titleText:{
@@ -129,7 +151,7 @@ const styles = StyleSheet.create({
         left : 10,
     },  
     menu:{
-        top : 5,
+        top : 5.5,
         flex : 5,
         flexDirection : 'row',
         shadowColor: "#000",

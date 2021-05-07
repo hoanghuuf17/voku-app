@@ -1,5 +1,12 @@
 import React,{useState, useEffect, useLayoutEffect} from 'react'
-import { StyleSheet, TextInput, View,SafeAreaView, ScrollView } from 'react-native'
+import { 
+    StyleSheet, 
+    TextInput, 
+    View,SafeAreaView, 
+    ScrollView, 
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback
+} from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { db } from '../firebase'
@@ -26,9 +33,23 @@ const SearchScreen = ({navigation}) => {
          return post;
      }, [])
 
-    const search = (e) =>{
-        setInput(e)
-    }
+    const search = (text) => {
+        if (text) {
+          const newData = posts.filter(
+            function (item) {
+              const itemData = item.data.title
+                ? item.data.title.toUpperCase()
+                : ''.toUpperCase();
+              const textData = text.toUpperCase();
+              return itemData.indexOf(textData) > -1;
+          });
+          setData(newData);
+          setInput(text);
+        } else {
+          setData(posts);
+          setInput(text);
+        }
+      };
 
     const selectNotify = (id) => {
         navigation.navigate('Detail', {id : id})
@@ -47,21 +68,30 @@ const SearchScreen = ({navigation}) => {
                 <FontAwesome name="microphone" size={20} color='#575757'/>
             </View>
             <View style={styles.content}>
-                <ScrollView>
-                    {posts && 
-                        posts.map(doc => {
-                            const {title, duration, viewer, content, picture} = doc.data;
-                            return(<New 
-                                onPress={()=> selectNotify(doc.id)}
-                                key={doc.id} 
-                                id={doc.id}
-                                title={title} 
-                                duration={duration} 
-                                viewer={viewer} 
-                                content={content} 
-                                picture={picture}/>)
-                    })}
-                </ScrollView>
+            <KeyboardAvoidingView 
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={styles.container}
+                keyboardVerticalOffset={90}>
+                <TouchableWithoutFeedback keyboard="dismiss">
+                    <>
+                        <ScrollView>
+                            {data && 
+                                data.map(doc => {
+                                    const {title, duration, viewer, content, picture} = doc.data;
+                                    return(<New 
+                                        onPress={()=> selectNotify(doc.id)}
+                                        key={doc.id} 
+                                        id={doc.id}
+                                        title={title} 
+                                        duration={duration} 
+                                        viewer={viewer} 
+                                        content={content} 
+                                        picture={picture}/>)
+                            })}
+                        </ScrollView>
+                    </>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
             </View>
         </SafeAreaView>
     )
@@ -76,7 +106,7 @@ const styles = StyleSheet.create({
         backgroundColor : '#fff'
     },
     searchBar:{
-        top : -25,
+        top : -10,
         margin : 10, 
         flexDirection : 'row', 
         justifyContent: 'space-between', 

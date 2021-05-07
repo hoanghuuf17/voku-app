@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import { StyleSheet, Text, View, SafeAreaView,FlatList } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView,FlatList, ScrollView } from 'react-native';
 import { auth, db} from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Avatar } from 'react-native-elements'
@@ -17,6 +17,7 @@ const SchedualScreen = () => {
     const [dates, setDates] = useState([]);
     const dispatch = useDispatch();
     const dateId = useSelector(selectDateId);
+    const [date, setDate] = useState(null)
     
     const [dateDetail] = useDocument(
         dateId && db.collection('dates').doc(dateId)
@@ -25,6 +26,17 @@ const SchedualScreen = () => {
     const [dateSubjects] = useCollection(
         dateId && db.collection('dates').doc(dateId).collection('subjects').orderBy('session', "asc")
     );
+
+    useEffect(() => {
+        const unsubscribe = db.collection('dates').onSnapshot((snapshot) =>{
+            snapshot.docs.map(doc => {
+                if(doc.id == dateId){
+                    setDate(doc.data())
+                }
+            }
+        )});
+        return unsubscribe;
+     }, [])
 
     useEffect(() => {
        const unsubscribe = db
@@ -50,7 +62,7 @@ const SchedualScreen = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.date}>THỨ TƯ, 07</Text>
+                {date && <Text style={styles.date}>{date.date.toUpperCase()}, 29</Text>}
                 <Avatar
                 size ={50}
                     rounded
@@ -70,15 +82,17 @@ const SchedualScreen = () => {
                 />
             </View>
             <View style={styles.news}>
-               {dateDetail && dateSubjects && (
-                    <>
-                        {dateSubjects?.docs.map(doc=> {
-                            const {name, subject, session, room} = doc.data();
-                            return(<Subject name={name} subject={subject} session={session} room={room} key={doc.id}/>);
-                        })}
-                    </>
-               )
-               }
+                <ScrollView>
+                    {dateDetail && dateSubjects && (
+                            <>
+                                {dateSubjects?.docs.map(doc=> {
+                                    const {name, subject, session, room} = doc.data();
+                                    return(<Subject name={name} subject={subject} session={session} room={room} key={doc.id}/>);
+                                })}
+                            </>
+                    )
+                    }
+                </ScrollView>
             </View>
         </SafeAreaView>
     )
@@ -96,8 +110,8 @@ const styles = StyleSheet.create({
         flex : 1,
         flexDirection : 'row',
         justifyContent : 'space-between',
-        alignItems : 'center'
-        
+        alignItems : 'center',
+        top : -5
     },  
     date:{
         fontWeight : 'bold',

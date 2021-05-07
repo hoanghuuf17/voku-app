@@ -71,14 +71,14 @@ const styles = StyleSheet.create({
     container:{
         display : 'flex',
         flex : 1,
-        backgroundColor : 'white'
+        backgroundColor : 'white',
+        flexDirection : 'column',
     },
     header:{
         flexDirection : 'row',
         justifyContent : 'space-between',
         alignItems : 'center',
-        top : 10
-        
+        top : 7
     },  
     date:{
         fontWeight : 'bold',
