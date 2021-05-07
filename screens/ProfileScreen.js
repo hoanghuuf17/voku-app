@@ -1,6 +1,5 @@
-import React from 'react';
-import { StyleSheet, Text, View,SafeAreaView } from 'react-native';
-import { Button } from 'react-native-elements';
+import React,{useLayoutEffect} from 'react';
+import { StyleSheet, Text, View,SafeAreaView, TouchableOpacity } from 'react-native';
 import { auth, db } from '../firebase';
 import { Avatar } from 'react-native-elements';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -11,6 +10,13 @@ import Feather from 'react-native-vector-icons/Feather'
 
 const ProfileScreen = ({navigation}) => {
     const [user] = useAuthState(auth);
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerShown: false
+        })
+    }, [navigation])
+
     const signOutUser = () =>{
         auth.signOut().then(()=> {
             navigation.navigate('Login');
@@ -29,9 +35,9 @@ const ProfileScreen = ({navigation}) => {
                                     source ={{ uri : user?.photoURL }}
                                 />   
                             </View>
-                            <Text style={{alignSelf : 'center', color : 'white', fontSize : 22, fontWeight : '700', top : 10}}>Trịnh Hữu Hoàng</Text>
-                            <Text style={{alignSelf : 'center', color : 'white', fontSize : 18, fontWeight : '500', top : 10}}>Mail: {user?.email}</Text>
-                            <Text style={{alignSelf : 'center', color : 'white', fontSize : 18, fontWeight : '600', top : 10}}>Khóa :  2017 - 2022</Text>
+                            <Text style={styles.txtInfo}>Trịnh Hữu Hoàng</Text>
+                            <Text style={[styles.txtInfo,{fontWeight : '500'}]}>Mail: {user?.email}</Text>
+                            <Text style={[styles.txtInfo,{fontWeight : '600'}]}>Khóa :  2017 - 2022</Text>
                         </LinearGradient>
                     </View>   
                     <View style={styles.bottom}>
@@ -49,15 +55,9 @@ const ProfileScreen = ({navigation}) => {
                                     <Feather style={{left : 20}} name="phone-call" size={29} color='#565656'/>
                                     <Text style={{right: 10, color : '#565656', fontSize : 20,fontWeight : '500'}}>Điện thoại: 0935801030</Text>
                             </LinearGradient>
-                            <Button 
-                                onPress={signOutUser}
-                                title="Đăng xuất"  
-                                buttonStyle={{
-                                    backgroundColor: "#78DDF9",
-                                    borderRadius : 7,
-                                    width : 200,
-                                    borderRadius : 20,
-                            }}/> 
+                            <TouchableOpacity style={styles.btnLogout} onPress={signOutUser}>
+                                <Text style={styles.txtLogout}>Đăng xuất</Text>
+                            </TouchableOpacity>
                     </View> 
                 </>
                 }
@@ -71,10 +71,11 @@ const styles = StyleSheet.create({
     container:{
         flex : 1,
         backgroundColor : 'white',
-        flexDirection : 'column'
+        flexDirection : 'column',
+        display : 'flex',
     },  
     top:{
-        flex : 4,
+        flex : 3,
         alignItems : 'center',
         justifyContent : 'center',
         padding : 10,
@@ -88,6 +89,13 @@ const styles = StyleSheet.create({
         elevation: 8,
         top : 50
     },
+    txtInfo:{
+        alignSelf : 'center',
+        color : 'white', 
+        fontSize : 18, 
+        fontWeight : '700', 
+        top : 10
+    },
     linearGradient:{
         padding : 30,
         borderRadius : 40,
@@ -95,7 +103,6 @@ const styles = StyleSheet.create({
     bottom:{
         flex : 6,
         alignItems : 'center',
-        top : 100,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -104,7 +111,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.30,
         shadowRadius: 4.65,
         elevation: 8,
-        top : 100
+        top : 100,
     },
     item:{
         marginBottom : 30,
@@ -115,5 +122,17 @@ const styles = StyleSheet.create({
         flexDirection : 'row',
         alignItems : 'center',
         justifyContent : 'space-between',
+    },
+    btnLogout:{
+        backgroundColor : '#78DDF9',
+        padding : 15,
+        borderRadius :  12,
+        width : 200,
+        alignItems : 'center'
+    },
+    txtLogout:{
+        color : 'white',
+        fontWeight : '700',
+        fontSize  : 20
     }
 })
