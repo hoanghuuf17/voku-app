@@ -18,21 +18,21 @@ const tabNavigation = () => {
 
     return (
         <NavigationContainer>
-        <Tab.Navigator tabBar={props => <TabBar {...props}/>} initialRouteName="Home" >
-            {user ? (
-                <>
-                    <Tab.Screen name="Home" component={HomeScreen} initialParams={{icon : 'home'}}/>
-                    <Tab.Screen name="Notify"  component={NotifyScreen} initialParams={{icon : 'notification'}}/>
-                    <Tab.Screen name="Schedual" component={SchedualScreen} initialParams={{icon : 'calendar'}}/>
-                    <Tab.Screen name="Search" component={SearchScreen} initialParams={{icon : 'search1'}}/>
-                    <Tab.Screen name="Profile" component={ProfileScreen} initialParams={{icon : 'user'}}/>
-                </>
-            ) : (
-                <>
-                    <Tab.Screen name="Login" component={Loading}/>
-                </>
-            )}
-        </Tab.Navigator>
+            <Tab.Navigator tabBar={props => <TabBar {...props} />} initialRouteName="Home" >
+                {user ? (
+                    <>
+                        <Tab.Screen name="Home" component={HomeScreen} initialParams={{ icon: 'home' }} />
+                        <Tab.Screen name="Notify" component={NotifyScreen} initialParams={{ icon: 'notification' }} />
+                        <Tab.Screen name="Schedual" component={SchedualScreen} initialParams={{ icon: 'calendar' }} />
+                        <Tab.Screen name="Search" component={SearchScreen} initialParams={{ icon: 'search1' }} />
+                        <Tab.Screen name="Profile" component={ProfileScreen} initialParams={{ icon: 'user' }} />
+                    </>
+                ) : (
+                    <>
+                        <Tab.Screen name="Login" component={Loading} />
+                    </>
+                )}
+            </Tab.Navigator>
         </NavigationContainer>
     )
 }
