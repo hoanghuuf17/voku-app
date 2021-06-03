@@ -8,11 +8,10 @@ const Tab = createBottomTabNavigator()
 const tabNavigation = () => {
 
     return (
-        <Tab.Navigator tabBar={props => <TabBar {...props}/>}>
-            <Tab.Screen name="Login" component={LoginScreen}/>
-            <Tab.Screen name="Home" component={HomeScreen}/>
+        <Tab.Navigator tabBar={props => <TabBar {...props} />}>
+            <Tab.Screen name="Login" component={LoginScreen} />
+            <Tab.Screen name="Home" component={HomeScreen} />
         </Tab.Navigator>
     )
 }
-
 export default tabNavigation
